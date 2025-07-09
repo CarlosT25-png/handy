@@ -26,7 +26,7 @@ app_license = "mit"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/handy/css/handy.css"
-# app_include_js = "/assets/handy/js/handy.js"
+app_include_js = "/assets/handy/js/handy_api.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/handy/css/handy.css"
@@ -40,7 +40,7 @@ app_license = "mit"
 # webform_include_css = {"doctype": "public/css/doctype.css"}
 
 # include js in page
-# page_js = {"page" : "public/js/file.js"}
+# page_js = {"handy_sync_page" : "public/js/file.js"}
 
 # include js in doctype views
 # doctype_js = {"doctype" : "public/js/doctype.js"}
@@ -137,34 +137,30 @@ app_license = "mit"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+   "Stock Entry": {
+        "on_submit": "handy.handy.api.create_stock_movement"
+    }
+	# "*": {
+	# 	"on_update": "method",
+	# 	"on_cancel": "method",
+	# 	"on_trash": "method"
+	# }
+}
 
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"handy.tasks.all"
-# 	],
-# 	"daily": [
-# 		"handy.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"handy.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"handy.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"handy.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+    "cron": {
+        "*/15 * * * *": [
+            "handy.handy.api.sync_customers",
+            "handy.handy.api.sync_products",
+            "handy.handy.api.sync_price_lists",
+            "handy.handy.api.sync_products_quantities"
+        ]
+    }
+}
 
 # Testing
 # -------
